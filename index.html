@@ -202,7 +202,7 @@
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
                 <div>
-                    <img src="src/logo-white.png" alt="Sunshine Solutions Logo" class="w-48 mb-4">
+                    <img src="src/logo.png" alt="Sunshine Solutions Logo" class="w-48 mb-4 rounded">
                     <p>Transformando ideias em soluções digitais inovadoras.</p>
                 </div>
                 <div>
@@ -251,29 +251,46 @@
         </button>
     </div>
 
-    <div id="modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
-        <div class="bg-white p-8 rounded-lg shadow-xl relative">
+    <!-- Modal de Oferta Especial -->
+    <div id="ofertaEspecialModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl relative max-w-md w-full">
+            <button id="closeOfertaEspecialModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-3xl font-bold mb-4 text-center text-blue-600">Oferta Especial!</h2>
+            <p class="text-xl mb-6 text-center">Solicite agora seu orçamento gratuito e ganhe 10% de desconto em nossos serviços!</p>
+            <form id="ofertaEspecialForm" class="space-y-4">
+                <input type="text" placeholder="Seu nome" class="w-full p-3 border rounded" required>
+                <input type="email" placeholder="Seu e-mail" class="w-full p-3 border rounded" required>
+                <button type="submit" class="w-full bg-green-500 text-white font-bold py-3 rounded hover:bg-green-600 transition duration-300">
+                    Quero meu desconto!
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Fale Conosco (atualizado) -->
+    <div id="modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl relative max-w-md w-full">
             <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-            <h2 class="text-2xl font-bold mb-4 text-center">Solicite uma Consulta Gratuita</h2>
+            <h2 class="text-3xl font-bold mb-4 text-center text-blue-600">Fale Conosco</h2>
+            <p class="text-xl mb-6 text-center">Estamos ansiosos para transformar sua ideia em realidade!</p>
             <a href="https://wa.me/77991156978" target="_blank"
-                class="block w-full bg-green-500 text-white text-center py-2 rounded hover:bg-green-600 transition duration-300">
-                WhatsApp
+                class="block w-full bg-green-500 text-white text-center py-3 rounded hover:bg-green-600 transition duration-300 mb-4">
+                Falar no WhatsApp
             </a>
-            <div class="flex items-center justify-center space-x-4 py-8">
-                <hr class="w-1/3 border-t border-gray-300">
-                <p class="text-gray-500 font-medium">ou</p>
-                <hr class="w-1/3 border-t border-gray-300">
-            </div>
             <form id="contactForm" class="space-y-4">
-                <input type="email" placeholder="Seu e-mail" class="w-full p-2 border rounded" required>
-                <textarea placeholder="Descreva seu projeto" class="w-full p-2 border rounded" rows="4" required></textarea>
-                <button type="submit"
-                    class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-300">
-                    Enviar
+                <input type="text" placeholder="Seu nome" class="w-full p-3 border rounded" required>
+                <input type="email" placeholder="Seu e-mail" class="w-full p-3 border rounded" required>
+                <textarea placeholder="Descreva seu projeto" class="w-full p-3 border rounded" rows="4" required></textarea>
+                <button type="submit" class="w-full bg-blue-500 text-white font-bold py-3 rounded hover:bg-blue-600 transition duration-300">
+                    Solicitar Contato
                 </button>
             </form>
         </div>
@@ -285,6 +302,8 @@
             const openModalBtn = document.getElementById('openModal');
             const closeModalBtn = document.getElementById('closeModal');
             const modal = document.getElementById('modal');
+            const ofertaEspecialModal = document.getElementById('ofertaEspecialModal');
+            const closeOfertaEspecialModalBtn = document.getElementById('closeOfertaEspecialModal');
 
             openModalBtn.addEventListener('click', function() {
                 modal.classList.remove('hidden');
@@ -294,6 +313,32 @@
             closeModalBtn.addEventListener('click', function() {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
+            });
+
+            closeOfertaEspecialModalBtn.addEventListener('click', function() {
+                ofertaEspecialModal.classList.add('hidden');
+                ofertaEspecialModal.classList.remove('flex');
+            });
+
+            // Detectar quando o mouse sai da janela
+            document.addEventListener('mouseout', function(e) {
+                if (e.clientY < 0) {
+                    ofertaEspecialModal.classList.remove('hidden');
+                    ofertaEspecialModal.classList.add('flex');
+                }
+            });
+
+            // Evitar que o modal apareça novamente após ser fechado
+            let ofertaEspecialMostrada = false;
+            closeOfertaEspecialModalBtn.addEventListener('click', function() {
+                ofertaEspecialMostrada = true;
+            });
+
+            document.addEventListener('mouseout', function(e) {
+                if (e.clientY < 0 && !ofertaEspecialMostrada) {
+                    ofertaEspecialModal.classList.remove('hidden');
+                    ofertaEspecialModal.classList.add('flex');
+                }
             });
         });
     </script>
